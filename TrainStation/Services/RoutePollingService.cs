@@ -1,22 +1,22 @@
-﻿using Train.Station.API.Services;
-using Train.Station.Client;
+﻿using Train.Station.Client;
 
-namespace Train.Station.API;
+namespace Train.Station.API.Services;
 
 public class RoutePollingService(
     RouteCache routeCache,
+    SolverCache solverCache,
     IHttpClientFactory httpClientFactory) : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-            foreach (var lp in SolverRegistry.Snapshot())
+            foreach (var lp in solverCache.GetAll())
             {
                 try
                 {
-                    var name = lp.Key;
-                    var baseAddress = lp.Value.ToString();
+                    var name = lp.Name;
+                    var baseAddress = lp.Url.ToString();
 
                     var trainSilverClient = new TrainSolverApiClient(
                         baseAddress, 

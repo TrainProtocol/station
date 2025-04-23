@@ -1,15 +1,11 @@
 using System.Text.Json.Serialization;
 using System.Threading.RateLimiting;
-using Train.Station.API;
 using Train.Station.API.Endpoints;
 using Train.Station.API.Extensions;
 using Train.Station.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
-
-SolverRegistry.Register("EC69", new Uri("https://train.dev.lb.layerswap.cloud/"));
-SolverRegistry.Register("IC420", new Uri("https://train.dev.lb.layerswap.cloud/"));
 
 builder.Configuration
     .SetBasePath(builder.Environment.ContentRootPath)
@@ -44,6 +40,7 @@ builder.Services.Configure<Microsoft.AspNetCore.Mvc.JsonOptions>(options =>
 builder.Services.AddHttpClient();
 builder.Services.AddMemoryCache();
 builder.Services.AddSingleton<RouteCache>();
+builder.Services.AddSingleton<SolverCache>();
 builder.Services.AddSingleton<NetworkConfigurationCache>();
 builder.Services.AddHostedService<RoutePollingService>();
 
