@@ -1,0 +1,22 @@
+{
+  "runtime": "Net90",
+  "codeGenerators": {
+    "openApiToCSharpClient": {
+      "className": "TrainSolverApiClient",
+      "namespace": "Train.Station.Client",
+      "output": "Client/TrainSolverApiClient.cs",
+      "generateClientClasses": true,
+      "generateClientInterfaces": true,
+      "generateDtoTypes": true,
+      "useHttpClientCreationMethod": false,
+      "injectHttpClient": true,
+      "useBaseUrl": true,
+      "generateOptionalParameters": true
+    }
+  },
+  "documentGenerator": {
+    "fromDocument": {
+      "url": "https://train.dev.lb.layerswap.cloud/swagger/solver/swagger.json"
+    }
+  }
+}

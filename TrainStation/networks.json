@@ -1,0 +1,30 @@
+[
+  {
+    "Name": "ETHEREUM_SEPOLIA",
+    "DisplayName": "Ethereum Mainnet",
+    "Logo": "https://example.com/logos/eth.svg",
+    "TransactionExplorerTemplate": "https://etherscan.io/tx/{0}",
+    "AccountExplorerTemplate": "https://etherscan.io/address/{0}",
+    "NativeSymbol": "ETH",
+    "Decimals": 18,
+    "RpcUrl": "https://mainnet.infura.io/v3/...",
+    "HTLCNativeContractAddress": null,
+    "HTLCTokenContractAddress": null,
+    "GasPriceOracleContract": null,
+    "EvmMultiCallContract": "0x123456..."
+  },
+  {
+    "Name": "ARBITRUM_SEPOLIA",
+    "DisplayName": "Ethereum Mainnet",
+    "Logo": "https://example.com/logos/eth.svg",
+    "TransactionExplorerTemplate": "https://etherscan.io/tx/{0}",
+    "AccountExplorerTemplate": "https://etherscan.io/address/{0}",
+    "NativeSymbol": "ETH",
+    "Decimals": 18,
+    "RpcUrl": "https://mainnet.infura.io/v3/...",
+    "HTLCNativeContractAddress": null,
+    "HTLCTokenContractAddress": null,
+    "GasPriceOracleContract": null,
+    "EvmMultiCallContract": "0x123456..."
+  }
+]
