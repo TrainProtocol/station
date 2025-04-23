@@ -9,7 +9,7 @@ public class SolverCache
 
     public SolverCache(IWebHostEnvironment env)
     {
-        var filePath = Path.Combine(env.ContentRootPath, "lp.json");
+        var filePath = Path.Combine(env.ContentRootPath, "solvers.json");
         if (!File.Exists(filePath))
         {
             throw new FileNotFoundException("Could not find lp.json", filePath);

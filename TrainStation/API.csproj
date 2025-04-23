@@ -23,6 +23,6 @@
 	</ItemGroup>
 
 	<Target Name="NSwagGenerate" BeforeTargets="BeforeBuild">
-		<Exec Command="nswag run $(ProjectDir)solver.nswag" />
+		<Exec Command="nswag run $(ProjectDir)client.nswag" />
 	</Target>
 </Project>
