@@ -12,6 +12,10 @@
 	<ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+		<PackageReference Include="NSwag.MSBuild" Version="14.3.0">
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		  <PrivateAssets>all</PrivateAssets>
+		</PackageReference>
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="8.1.0" />
 		<PackageReference Include="Flurl.Http" Version="4.0.2" />
@@ -23,6 +27,6 @@
 	</ItemGroup>
 
 	<Target Name="NSwagGenerate" BeforeTargets="BeforeBuild">
-		<Exec Command="nswag run $(ProjectDir)client.nswag" />
+		<Exec Command="$(NSwagExe_Net90) run $(ProjectDir)client.nswag" />
 	</Target>
 </Project>

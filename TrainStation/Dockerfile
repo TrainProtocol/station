@@ -9,7 +9,7 @@ WORKDIR /build
 COPY TrainStation/ TrainStation/
 
 FROM build AS publish
-RUN dotnet publish "TrainStation/API.csproj" -c Release
+RUN dotnet publish "TrainStation/API.csproj" -c Release -o /app/publish
 
 FROM base AS final
 
