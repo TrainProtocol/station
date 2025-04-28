@@ -38,7 +38,7 @@
     "NativeSymbol": "ETH",
     "Decimals": 18,
     "RpcUrl": "https://starknet-sepolia.public.blastapi.io"
-  }
+  },
   {
     "Name": "SOLANA_DEVNET",
     "DisplayName": "Solana Devnet",
