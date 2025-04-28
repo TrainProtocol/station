@@ -16,7 +16,7 @@
   },
   "documentGenerator": {
     "fromDocument": {
-      "url": "https://train.dev.lb.layerswap.cloud/swagger/solver/swagger.json"
+      "url": "https://train.dev.lb.layerswap.cloud/swagger/v1/swagger.json"
     }
   }
 }
