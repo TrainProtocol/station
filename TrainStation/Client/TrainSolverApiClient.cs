@@ -144,8 +144,8 @@ namespace Train.Station.Client
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "api/networks"
-                    urlBuilder_.Append("api/networks");
+                    // Operation Path: "api/v1/networks"
+                    urlBuilder_.Append("api/v1/networks");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -215,8 +215,8 @@ namespace Train.Station.Client
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "api/routes"
-                    urlBuilder_.Append("api/routes");
+                    // Operation Path: "api/v1/routes"
+                    urlBuilder_.Append("api/v1/routes");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -286,8 +286,8 @@ namespace Train.Station.Client
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "api/sources"
-                    urlBuilder_.Append("api/sources");
+                    // Operation Path: "api/v1/sources"
+                    urlBuilder_.Append("api/v1/sources");
                     urlBuilder_.Append('?');
                     if (destinationNetwork != null)
                     {
@@ -367,8 +367,8 @@ namespace Train.Station.Client
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "api/destinations"
-                    urlBuilder_.Append("api/destinations");
+                    // Operation Path: "api/v1/destinations"
+                    urlBuilder_.Append("api/v1/destinations");
                     urlBuilder_.Append('?');
                     if (sourceNetwork != null)
                     {
@@ -460,8 +460,8 @@ namespace Train.Station.Client
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "api/limits"
-                    urlBuilder_.Append("api/limits");
+                    // Operation Path: "api/v1/limits"
+                    urlBuilder_.Append("api/v1/limits");
                     urlBuilder_.Append('?');
                     urlBuilder_.Append(System.Uri.EscapeDataString("SourceNetwork")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(sourceNetwork, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
                     urlBuilder_.Append(System.Uri.EscapeDataString("SourceToken")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(sourceToken, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
@@ -552,8 +552,8 @@ namespace Train.Station.Client
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "api/quote"
-                    urlBuilder_.Append("api/quote");
+                    // Operation Path: "api/v1/quote"
+                    urlBuilder_.Append("api/v1/quote");
                     urlBuilder_.Append('?');
                     urlBuilder_.Append(System.Uri.EscapeDataString("Amount")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(amount, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
                     urlBuilder_.Append(System.Uri.EscapeDataString("SourceNetwork")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(sourceNetwork, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
@@ -630,8 +630,8 @@ namespace Train.Station.Client
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "api/swaps"
-                    urlBuilder_.Append("api/swaps");
+                    // Operation Path: "api/v1/swaps"
+                    urlBuilder_.Append("api/v1/swaps");
                     urlBuilder_.Append('?');
                     if (addresses != null)
                     {
@@ -714,8 +714,8 @@ namespace Train.Station.Client
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "api/swaps/{commitId}"
-                    urlBuilder_.Append("api/swaps/");
+                    // Operation Path: "api/v1/swaps/{commitId}"
+                    urlBuilder_.Append("api/v1/swaps/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(commitId, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -796,8 +796,8 @@ namespace Train.Station.Client
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "api/swaps/{commitId}/addLockSig"
-                    urlBuilder_.Append("api/swaps/");
+                    // Operation Path: "api/v1/swaps/{commitId}/addLockSig"
+                    urlBuilder_.Append("api/v1/swaps/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(commitId, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/addLockSig");
 
@@ -1340,36 +1340,11 @@ namespace Train.Station.Client
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.3.0.0 (NJsonSchema v11.2.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class RouteDto
     {
-        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int Id { get; set; }
-
         [Newtonsoft.Json.JsonProperty("source", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public TokenNetworkDto Source { get; set; }
 
         [Newtonsoft.Json.JsonProperty("destionation", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public TokenNetworkDto Destionation { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("maxAmountInSource", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public double MaxAmountInSource { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public RouteStatus Status { get; set; }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.3.0.0 (NJsonSchema v11.2.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public enum RouteStatus
-    {
-
-        [System.Runtime.Serialization.EnumMember(Value = @"Active")]
-        Active = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"Inactive")]
-        Inactive = 1,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"Archived")]
-        Archived = 2,
 
     }
 

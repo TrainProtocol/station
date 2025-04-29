@@ -68,6 +68,11 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 app.MapGroup("/api")
+    .MapGet("/health", () => Results.Ok())
+    .WithTags("System")
+    .Produces(StatusCodes.Status200OK);
+
+app.MapGroup("/api")
    .MapEndpoints()
    .RequireRateLimiting("Fixed")
    .WithGroupName("station")
@@ -76,7 +81,7 @@ app.MapGroup("/api")
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/station/swagger.json", "station");
+    c.SwaggerEndpoint("/swagger/station/swagger.json", "Train Station API");
     c.DisplayRequestDuration();
 });
 

@@ -1,23 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Train.Station.API.Models;
 using Train.Station.API.Services;
 using Train.Station.Client;
 
 namespace Train.Station.API.Endpoints;
 
-public static class SolverEndpoints
+public static class StationEndpoints
 {
     public const int UsdPrecision = 6;
 
     public static RouteGroupBuilder MapEndpoints(this RouteGroupBuilder group)
     {
         group.MapGet("/networks", GetNetworksAsync)
-            .Produces<ApiResponseListDetailedNetworkDto>();
+            .Produces<IEnumerable<NetworkConfiguration>>();
 
         group.MapGet("/routes", GetAllRoutesAsync)
-            .Produces<ApiResponseListDetailedNetworkDto>();
-
-        //group.MapGet("/limits", GetSwapRouteLimitsAsync)
-        //  .Produces<ApiResponseLimitDto>();
+            .Produces<IEnumerable<RouteDto>>();
 
         //group.MapGet("/quote", GetQuoteAsync)
         //    .Produces<ApiResponseQuoteDto>();
@@ -30,9 +28,6 @@ public static class SolverEndpoints
 
         //group.MapPost("/{solver}/swaps/{commitId}/addLockSig", AddLockSigAsync)
         //    .Produces<ApiResponse>();
-
-        group.MapGet("/health", () => Results.Ok())
-            .Produces(StatusCodes.Status200OK);
 
         return group;
     }

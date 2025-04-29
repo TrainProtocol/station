@@ -1,30 +1,52 @@
 [
   {
     "Name": "ETHEREUM_SEPOLIA",
-    "DisplayName": "Ethereum Mainnet",
-    "Logo": "https://example.com/logos/eth.svg",
-    "TransactionExplorerTemplate": "https://etherscan.io/tx/{0}",
-    "AccountExplorerTemplate": "https://etherscan.io/address/{0}",
+    "DisplayName": "Ethereum Sepolia",
+    "ChainId": "11155111",
+    "TransactionExplorerTemplate": "https://sepolia.etherscan.io/tx/{0}",
+    "AccountExplorerTemplate": "https://sepolia.etherscan.io/address/{0}",
     "NativeSymbol": "ETH",
     "Decimals": 18,
-    "RpcUrl": "https://mainnet.infura.io/v3/...",
-    "HTLCNativeContractAddress": null,
-    "HTLCTokenContractAddress": null,
-    "GasPriceOracleContract": null,
-    "EvmMultiCallContract": "0x123456..."
+    "RpcUrl": "https://ethereum-sepolia-rpc.publicnode.com"
   },
   {
     "Name": "ARBITRUM_SEPOLIA",
-    "DisplayName": "Ethereum Mainnet",
-    "Logo": "https://example.com/logos/eth.svg",
-    "TransactionExplorerTemplate": "https://etherscan.io/tx/{0}",
-    "AccountExplorerTemplate": "https://etherscan.io/address/{0}",
+    "DisplayName": "Arbitrum One Sepolia",
+    "ChainId": "421614",
+    "TransactionExplorerTemplate": "https://sepolia.arbiscan.io/tx/{0}",
+    "AccountExplorerTemplate": "https://sepolia.arbiscan.io/address/{0}",
     "NativeSymbol": "ETH",
     "Decimals": 18,
-    "RpcUrl": "https://mainnet.infura.io/v3/...",
-    "HTLCNativeContractAddress": null,
-    "HTLCTokenContractAddress": null,
-    "GasPriceOracleContract": null,
-    "EvmMultiCallContract": "0x123456..."
+    "RpcUrl": "https://arbitrum-sepolia-rpc.publicnode.com"
+  },
+  {
+    "Name": "OPTIMISM_SEPOLIA",
+    "DisplayName": "Optimism Sepolia",
+    "ChainId": "11155420",
+    "TransactionExplorerTemplate": "https://sepolia-optimism.etherscan.io/tx/{0}",
+    "AccountExplorerTemplate": "https://sepolia-optimism.etherscan.io/address/{0}",
+    "NativeSymbol": "ETH",
+    "Decimals": 18,
+    "RpcUrl": "https://sepolia.optimism.io"
+  },
+  {
+    "Name": "STARKNET_SEPOLIA",
+    "DisplayName": "Starknet Sepolia",
+    "ChainId": "0x534e5f5345504f4c4941",
+    "TransactionExplorerTemplate": "https://sepolia.starkscan.co/tx/{0}",
+    "AccountExplorerTemplate": "https://sepolia.starkscan.co/contract/{0}",
+    "NativeSymbol": "ETH",
+    "Decimals": 18,
+    "RpcUrl": "https://starknet-sepolia.public.blastapi.io"
+  },
+  {
+    "Name": "SOLANA_DEVNET",
+    "DisplayName": "Solana Devnet",
+    "ChainId": "devnet",
+    "TransactionExplorerTemplate": "https://explorer.solana.com/tx/{0}?cluster=devnet",
+    "AccountExplorerTemplate": "https://explorer.solana.com/address/{0}?cluster=devnet",
+    "NativeSymbol": "SOL",
+    "Decimals": 9,
+    "RpcUrl": "https://api.devnet.solana.com"
   }
 ]
