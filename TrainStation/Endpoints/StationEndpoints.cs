@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Text;
 using Train.Station.API.Models;
 using Train.Station.API.Services;
 using Train.Station.Client;
@@ -17,8 +18,8 @@ public static class StationEndpoints
         group.MapGet("/routes", GetAllRoutesAsync)
             .Produces<IEnumerable<RouteDto>>();
 
-        //group.MapGet("/quote", GetQuoteAsync)
-        //    .Produces<ApiResponseQuoteDto>();
+        group.MapGet("/quote-sse", GetQuoteAsync)
+            .Produces(statusCode: 200, contentType: "text/event-stream");
 
         //group.MapGet("/{solver}/swaps", GetAllSwapsAsync)
         //    .Produces<ApiResponseSwapDto>();
@@ -103,34 +104,68 @@ public static class StationEndpoints
         return Results.Ok(routes);
     }
 
-    //private static async Task<IResult> GetQuoteAsync(
-    //    IRouteService routeService,
-    //    HttpContext httpContext,
-    //    [AsParameters] GetQuoteQueryParams queryParams)
-    //{
-    //    var quoteRequest = new QuoteRequest
-    //    {
-    //        SourceNetwork = queryParams.SourceNetwork!,
-    //        SourceToken = queryParams.SourceToken!,
-    //        DestinationNetwork = queryParams.DestinationNetwork!,
-    //        DestinationToken = queryParams.DestinationToken!,
-    //        Amount = queryParams.Amount!.Value,
-    //    };
+    private static async Task GetQuoteAsync(
+        HttpContext httpContext,
+        RouteCache routeCache,
+        SolverCache solverCache,
+        IHttpClientFactory httpClientFactory,
+        [FromQuery] string sourceNetwork,
+        [FromQuery] string sourceToken,
+        [FromQuery] string destinationNetwork,
+        [FromQuery] string destinationToken,
+        [FromQuery] double amount)
+    {
+        httpContext.Response.Headers.ContentType = "text/event-stream";
 
-    //    var quote = await routeService.GetValidatedQuoteAsync(quoteRequest);
+        var lps = routeCache.GetLpsByRoute(
+            sourceNetwork,
+            sourceToken,
+            destinationNetwork,
+            destinationToken);
 
-    //    if (quote == null)
-    //    {
-    //        return Results.NotFound(new ApiResponse()
-    //        {
-    //            Error = new ApiError()
-    //            {
-    //                Code = "QUOTE_NOT_FOUND",
-    //                Message = "Quote not found",
-    //            }
-    //        });
-    //    }
+        var cancellationToken = httpContext.RequestAborted;
 
-    //    return Results.Ok(new ApiResponseQuoteDto { Data = quote });
-    //}
+            foreach (var lpName in lps)
+            {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    break;
+                }
+
+                try
+                {
+                    var solverInfo = solverCache.GetAll()[lpName];
+                    var httpClient = httpClientFactory.CreateClient(lpName);
+
+                    var trainSilverClient = new TrainSolverApiClient(
+                        solverInfo.Url.ToString(), httpClient);
+
+                    var quote = await trainSilverClient.QuoteAsync(
+                        amount,
+                        sourceNetwork,
+                        sourceToken,
+                        destinationNetwork,
+                        destinationToken);
+
+                    var message = new
+                    {
+                        Provider = lpName,
+                        Quote = quote.Data
+                    };
+
+                    var json = System.Text.Json.JsonSerializer.Serialize(message);
+
+                    await httpContext.Response.WriteAsync($"data: {json}\n\n");
+                    await httpContext.Response.Body.FlushAsync();
+
+                }
+                catch
+                {
+                }
+            }
+
+         
+
+        await httpContext.Response.Body.FlushAsync();
+    }
 }

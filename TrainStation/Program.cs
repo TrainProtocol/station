@@ -67,6 +67,9 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+app.UseRateLimiter();
+app.UseCors();
+
 app.MapGroup("/api")
     .MapGet("/health", () => Results.Ok())
     .WithTags("System")
@@ -85,7 +88,5 @@ app.UseSwaggerUI(c =>
     c.DisplayRequestDuration();
 });
 
-app.UseRateLimiter();
-app.UseCors();
 
 await app.RunAsync();

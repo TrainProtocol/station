@@ -1,11 +1,12 @@
-﻿using System.Text.Json;
+﻿using System.Collections.Concurrent;
+using System.Text.Json;
 using Train.Station.API.Models;
 
 namespace Train.Station.API.Services;
 
 public class SolverCache
 {
-    private readonly List<Solver> _solvers;
+    private readonly Dictionary<string, Solver> _solvers;
 
     public SolverCache(IWebHostEnvironment env)
     {
@@ -19,8 +20,8 @@ public class SolverCache
         _solvers = JsonSerializer.Deserialize<List<Solver>>(json, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
-        }) ?? new List<Solver>();
+        }).ToDictionary(x=> x.Name) ?? new ();
     }
 
-    public IReadOnlyList<Solver> GetAll() => _solvers;
+    public IReadOnlyDictionary<string, Solver> GetAll() => _solvers;
 }

@@ -15,8 +15,8 @@ public class RoutePollingService(
             {
                 try
                 {
-                    var name = lp.Name;
-                    var baseAddress = lp.Url.ToString();
+                    var name = lp.Key;
+                    var baseAddress = lp.Value.Url.ToString();
 
                     var trainSilverClient = new TrainSolverApiClient(
                         baseAddress, 
