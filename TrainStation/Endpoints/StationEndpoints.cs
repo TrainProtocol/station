@@ -32,10 +32,16 @@ public static class StationEndpoints
 
     private static async Task<IResult> GetSwapAsync(
         HttpContext httpContext,
+        SolverCache solverCache,
         [FromRoute] string solver,
         [FromRoute] string commitId,
         IHttpClientFactory httpClientFactory)
     {
+        if (!solverCache.GetAll().ContainsKey(solver))
+        {
+            return Results.NotFound();
+        }
+
         var httpClient = httpClientFactory.CreateClient(solver);
         var trainSilverClient = new TrainSolverApiClient(
             solver, httpClient);
@@ -46,11 +52,17 @@ public static class StationEndpoints
 
     private static async Task<IResult> AddLockSigAsync(
         HttpContext httpContext,
+        SolverCache solverCache,
         [FromRoute] string solver,
         [FromRoute] string commitId,
         IHttpClientFactory httpClientFactory,
         AddLockSignatureModel addLock)
     {
+        if (!solverCache.GetAll().ContainsKey(solver))
+        {
+            return Results.NotFound();
+        }
+
         var httpClient = httpClientFactory.CreateClient(solver);
         var trainSilverClient = new TrainSolverApiClient(
             solver, httpClient);
