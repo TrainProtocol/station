@@ -21,86 +21,60 @@ public static class StationEndpoints
         group.MapGet("/quote-sse", GetQuoteAsync)
             .Produces(statusCode: 200, contentType: "text/event-stream");
 
-        //group.MapGet("/{solver}/swaps", GetAllSwapsAsync)
-        //    .Produces<ApiResponseSwapDto>();
+        group.MapGet("/{solver}/swaps/{commitId}", GetSwapAsync)
+            .Produces<ApiResponseSwapDto>();
 
-        //group.MapGet("/{solver}/swaps/{commitId}", GetSwapAsync)
-        //    .Produces<ApiResponseSwapDto>();
-
-        //group.MapPost("/{solver}/swaps/{commitId}/addLockSig", AddLockSigAsync)
-        //    .Produces<ApiResponse>();
+        group.MapPost("/{solver}/swaps/{commitId}/addLockSig", AddLockSigAsync)
+            .Produces<ApiResponse>();
 
         return group;
     }
 
-
-    //private static async Task<IResult> GetSwapRouteLimitsAsync(
-    //    HttpContext httpContext,
-    //    IRouteService routeService,
-    //    [AsParameters] GetRouteLimitsQueryParams queryParams)
-    //{
-    //    var limit = await routeService.GetLimitAsync(
-    //        new()
-    //        {
-    //            SourceNetwork = queryParams.SourceNetwork!,
-    //            SourceToken = queryParams.SourceToken!,
-    //            DestinationNetwork = queryParams.DestinationNetwork!,
-    //            DestinationToken = queryParams.DestinationToken!,
-    //        });
-
-    //    if (limit == null)
-    //    {
-    //        return Results.NotFound(new ApiResponse()
-    //        {
-    //            Error = new ApiError()
-    //            {
-    //                Code = "LIMIT_NOT_FOUND",
-    //                Message = "Limit not found",
-    //            }
-    //        });
-    //    }
-
-    //    return Results.Ok(new ApiResponse<LimitDto> { Data = limit });
-    //}
-
-    private static async Task<IResult> GetNetworksAsync(
+    private static async Task<IResult> GetSwapAsync(
         HttpContext httpContext,
-        NetworkConfigurationCache networkConfigurationCache)
+        [FromRoute] string solver,
+        [FromRoute] string commitId,
+        IHttpClientFactory httpClientFactory)
     {
-        var networks = networkConfigurationCache.GetAll();
+        var httpClient = httpClientFactory.CreateClient(solver);
+        var trainSilverClient = new TrainSolverApiClient(
+            solver, httpClient);
+        var swap = await trainSilverClient.Swaps2Async(commitId);
 
-        return Results.Ok(networks);
+        return Results.Ok(swap);
     }
 
-    //private static async Task<IResult> GetAllSourcesAsync(
-    //    IRouteService routeService,
-    //    INetworkRepository networkRepository,
-    //    [FromQuery] string? destinationNetwork,
-    //    [FromQuery] string? destinationToken)
-    //{
-    //    var sources = await routeService.GetSourcesAsync(
-    //        networkName: destinationNetwork,
-    //        token: destinationToken);
+    private static async Task<IResult> AddLockSigAsync(
+        HttpContext httpContext,
+        [FromRoute] string solver,
+        [FromRoute] string commitId,
+        IHttpClientFactory httpClientFactory,
+        AddLockSignatureModel addLock)
+    {
+        var httpClient = httpClientFactory.CreateClient(solver);
+        var trainSilverClient = new TrainSolverApiClient(
+            solver, httpClient);
+        var swap = await trainSilverClient.Swaps2Async(commitId);
 
-    //    if (sources == null || !sources.Any())
-    //    {
-    //        return Results.NotFound(new ApiResponse()
-    //        {
-    //            Error = new ApiError()
-    //            {
-    //                Code = "REACHABLE_POINTS_NOT_FOUND",
-    //                Message = "No reachable points found",
-    //            }
-    //        });
-    //    }
+        if (swap == null)
+        {
+            return Results.NotFound();
+        }
 
-    //    return Results.Ok(new ApiResponseListDetailedNetworkDto { Data = sources });
-    //}
+        var lockSig = await trainSilverClient.AddLockSigAsync(commitId, addLock);
+        return Results.Ok(lockSig);
+    }
+
+    private static async Task<IResult> GetNetworksAsync(
+        NetworkConfigurationCache networkConfigurationCache)
+    {
+        return Results.Ok(networkConfigurationCache.GetAll());
+    }
 
     private static async Task<IResult> GetAllRoutesAsync(
         RouteCache routeCache)
     {
-        var routes = routeCache.GetAll();
+        var routes = await routeCache.GetAllAsync();
         return Results.Ok(routes);
     }
 
@@ -117,7 +91,7 @@ public static class StationEndpoints
     {
         httpContext.Response.Headers.ContentType = "text/event-stream";
 
-        var lps = routeCache.GetLpsByRoute(
+        var lps = await routeCache.GetLpsByRouteAsync(
             sourceNetwork,
             sourceToken,
             destinationNetwork,

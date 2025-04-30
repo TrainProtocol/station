@@ -29,7 +29,7 @@ public class RoutePollingService(
                         continue;
                     }
 
-                    routeCache.AddOrUpdateRoute(name, routesResponse.Data, TimeSpan.FromMinutes(10));
+                    await routeCache.AddOrUpdateRouteAsync(name, routesResponse.Data, TimeSpan.FromMinutes(5));
                 }
                 catch (Exception ex)
                 {

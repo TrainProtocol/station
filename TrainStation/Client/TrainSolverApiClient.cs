@@ -1335,6 +1335,12 @@ namespace Train.Station.Client
         [Newtonsoft.Json.JsonProperty("receiveAmountInUsd", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public double ReceiveAmountInUsd { get; set; }
 
+        [Newtonsoft.Json.JsonProperty("sourceAmount", Required = Newtonsoft.Json.Required.Always)]
+        public double SourceAmount { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("sourceAmountInUsd", Required = Newtonsoft.Json.Required.Always)]
+        public double SourceAmountInUsd { get; set; }
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.3.0.0 (NJsonSchema v11.2.0.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -1363,6 +1369,9 @@ namespace Train.Station.Client
         [Newtonsoft.Json.JsonProperty("sourceAmount", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public double SourceAmount { get; set; }
 
+        [Newtonsoft.Json.JsonProperty("sourceAmountInUsd", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public double SourceAmountInUsd { get; set; }
+
         [Newtonsoft.Json.JsonProperty("sourceAddress", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string SourceAddress { get; set; }
 
@@ -1374,6 +1383,9 @@ namespace Train.Station.Client
 
         [Newtonsoft.Json.JsonProperty("destinationAmount", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public double DestinationAmount { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("destinationAmountInUsd", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public double DestinationAmountInUsd { get; set; }
 
         [Newtonsoft.Json.JsonProperty("destinationAddress", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string DestinationAddress { get; set; }

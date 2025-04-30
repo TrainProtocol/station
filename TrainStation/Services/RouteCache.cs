@@ -1,18 +1,23 @@
-﻿using Microsoft.Extensions.Caching.Memory;
-using System.Collections.Concurrent;
+﻿using Microsoft.AspNetCore.DataProtection.KeyManagement;
+using Microsoft.AspNetCore.Routing;
+using StackExchange.Redis;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using Train.Station.Client;
 
 namespace Train.Station.API.Services;
 
-public class RouteCache(IMemoryCache cache, NetworkConfigurationCache networkConfigCache)
+public class RouteCache(
+    IDatabase cache,
+    IConnectionMultiplexer connectionMultiplexer,
+    NetworkConfigurationCache networkConfigCache)
 {
-    private readonly ConcurrentDictionary<string, ConcurrentDictionary<string, bool>> _routeToLps = new();
     private readonly HashSet<string> _validNetworkNames = networkConfigCache
         .GetAll()
         .Select(n => n.Name)
         .ToHashSet(StringComparer.OrdinalIgnoreCase);
 
-    public void AddOrUpdateRoute(string lpId, IEnumerable<RouteDto> routes, TimeSpan ttl)
+    public async Task AddOrUpdateRouteAsync(string lpId, IEnumerable<RouteDto> routes, TimeSpan ttl)
     {
         foreach (var route in routes)
         {
@@ -22,107 +27,58 @@ public class RouteCache(IMemoryCache cache, NetworkConfigurationCache networkCon
                 continue;
             }
 
-            string key = GetRouteKey(route);
+            await cache.SortedSetAddAsync(
+                "ROUTES", 
+                JsonSerializer.Serialize(route),
+                DateTimeOffset.UtcNow.ToUnixTimeSeconds());
 
-            var cacheEntryOptions = new MemoryCacheEntryOptions
-            {
-                AbsoluteExpirationRelativeToNow = ttl,
-                PostEvictionCallbacks =
-                {
-                    new PostEvictionCallbackRegistration
-                    {
-                        EvictionCallback = (evictedKey, value, reason, state) =>
-                        {
-                            var routeKey = (string)evictedKey;
-
-                            if (_routeToLps.TryGetValue(routeKey, out var lpSet))
-                            {
-                                lpSet.TryRemove(lpId, out _);
-
-                                if (lpSet.IsEmpty)
-                                    _routeToLps.TryRemove(routeKey, out _);
-                            }
-                        }
-                    }
-                }
-            };
-
-            cache.Set(key, route, cacheEntryOptions);
-
-            if (_routeToLps.TryGetValue(key, out var lpMap))
-            {
-                lpMap[lpId] = true;
-            }
-            else
-            {
-                _routeToLps[key] = new ConcurrentDictionary<string, bool>(
-                    [new KeyValuePair<string, bool>(lpId, true)]);
-            }
+            await cache.SetAddAsync(
+                GetRouteKey("LP", route),
+                new RedisValue(lpId));
         }
     }
 
-    public HashSet<RouteDto> GetAll()
+    public async Task<IEnumerable<RouteDto>> GetAllAsync()
     {
-        var routes = new HashSet<RouteDto>();
+        var now = DateTimeOffset.UtcNow;
+        var start = now.AddMinutes(-5).ToUnixTimeSeconds();
+        var end = now.ToUnixTimeSeconds();
 
-        foreach (var key in _routeToLps.Keys)
+        var members = await cache.SortedSetRangeByScoreAsync("ROUTES", start, end);
+
+        var entries = new List<RouteDto>();
+
+        foreach (var member in members)
         {
-            if (cache.TryGetValue<RouteDto>(key, out var route))
+            try
             {
-                routes.Add(route);
+                var dto = JsonSerializer.Deserialize<RouteDto>(member);
+                if (dto != null)
+                    entries.Add(dto);
+            }
+            catch
+            {
             }
         }
 
-        return routes;
+        return entries;
     }
 
-    public HashSet<TokenNetworkDto> GetAllSources()
+    public async Task<IEnumerable<string>> GetLpsByRouteAsync(string sourceNetwork, string sourceToken, string destinationNetwork, string destinationToken)
     {
-        var sources = new HashSet<TokenNetworkDto>();
-        foreach (var key in _routeToLps.Keys)
-        {
-            if (cache.TryGetValue<RouteDto>(key, out var route))
-            {
-                sources.Add(route.Source);
-            }
-        }
-        return sources;
+        var members = await cache.SetMembersAsync(GetRouteKey("LP", sourceNetwork, sourceToken, destinationNetwork, destinationToken));
+        return members.Select(m => m.ToString());
     }
 
-    public HashSet<TokenNetworkDto> GetAllDestinations()
+    private static string GetRouteKey(string prefix, string sourceNetwork, string sourceToken, string destNetwork, string destToken)
     {
-        var destinations = new HashSet<TokenNetworkDto>();
-        foreach (var key in _routeToLps.Keys)
-        {
-            if (cache.TryGetValue<RouteDto>(key, out var route))
-            {
-                destinations.Add(route.Destionation);
-            }
-        }
-
-        return destinations;
+        return $"{prefix}:{sourceNetwork}.{sourceToken}->{destNetwork}.{destToken}";
     }
 
-    public IEnumerable<string> GetLpsByRoute(string sourceNetwork, string sourceToken, string destinationNetwork, string destinationToken)
-    {
-        var requestedRouteKey = GetRouteKey(sourceNetwork, sourceToken, destinationNetwork, destinationToken);
-
-        if (_routeToLps.TryGetValue(requestedRouteKey, out var lps))
-        {
-            return lps.Keys;
-        }
-
-        return Enumerable.Empty<string>();
-    }
-
-    private static string GetRouteKey(string sourceNetwork, string sourceToken, string destNetwork, string destToken)
-    {
-        return $"{sourceNetwork}.{sourceToken}->{destNetwork}.{destToken}";
-    }
-
-    private static string GetRouteKey(RouteDto r)
+    private static string GetRouteKey(string prefix, RouteDto r)
     {
         return GetRouteKey(
+            prefix,
             r.Source.Network.Name,
             r.Source.Token.Symbol,
             r.Destionation.Network.Name,
