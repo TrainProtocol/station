@@ -45,7 +45,7 @@ public static class StationEndpoints
         var httpClient = httpClientFactory.CreateClient(solver);
         var trainSilverClient = new TrainSolverApiClient(
             solver, httpClient);
-        var swap = await trainSilverClient.Swaps2Async(commitId);
+        var swap = await trainSilverClient.SwapsAsync(commitId);
 
         return Results.Ok(swap);
     }
@@ -66,7 +66,7 @@ public static class StationEndpoints
         var httpClient = httpClientFactory.CreateClient(solver);
         var trainSilverClient = new TrainSolverApiClient(
             solver, httpClient);
-        var swap = await trainSilverClient.Swaps2Async(commitId);
+        var swap = await trainSilverClient.SwapsAsync(commitId);
 
         if (swap == null)
         {
@@ -99,7 +99,7 @@ public static class StationEndpoints
         [FromQuery] string sourceToken,
         [FromQuery] string destinationNetwork,
         [FromQuery] string destinationToken,
-        [FromQuery] double amount)
+        [FromQuery] string amount)
     {
         httpContext.Response.Headers.ContentType = "text/event-stream";
 

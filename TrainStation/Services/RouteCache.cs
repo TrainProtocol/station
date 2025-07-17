@@ -22,7 +22,7 @@ public class RouteCache(
         foreach (var route in routes)
         {
             if (!_validNetworkNames.Contains(route.Source.Network.Name) ||
-                !_validNetworkNames.Contains(route.Destionation.Network.Name))
+                !_validNetworkNames.Contains(route.Destination.Network.Name))
             {
                 continue;
             }
@@ -81,8 +81,8 @@ public class RouteCache(
             prefix,
             r.Source.Network.Name,
             r.Source.Token.Symbol,
-            r.Destionation.Network.Name,
-            r.Destionation.Token.Symbol
+            r.Destination.Network.Name,
+            r.Destination.Token.Symbol
         );
     }
 }
