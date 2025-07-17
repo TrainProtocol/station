@@ -100,16 +100,16 @@ public static class StationEndpoints
         [FromQuery] string destinationToken,
         [FromQuery] string amount)
     {
-        var lps = await routeCache.GetLpsByRouteAsync(
+        var solvers = await routeCache.GetSolversByRouteAsync(
             sourceNetwork,
             sourceToken,
             destinationNetwork,
             destinationToken);
 
-        var lpName = lps.First();
+        var solverName = solvers.First();
 
-        var solverInfo = solverCache.GetAll()[lpName];
-        var httpClient = httpClientFactory.CreateClient(lpName);
+        var solverInfo = solverCache.GetAll()[solverName];
+        var httpClient = httpClientFactory.CreateClient(solverName);
 
         var trainSilverClient = new TrainSolverApiClient(
             solverInfo.Url.ToString(), httpClient);
@@ -121,7 +121,7 @@ public static class StationEndpoints
             destinationNetwork,
             destinationToken);
 
-        quote.Data.LPName = lpName;
+        quote.Data.SolverName = solverName;
 
         return Results.Ok(quote);
     }

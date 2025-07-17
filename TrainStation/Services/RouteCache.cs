@@ -33,7 +33,7 @@ public class RouteCache(
                 DateTimeOffset.UtcNow.ToUnixTimeSeconds());
 
             await cache.SetAddAsync(
-                GetRouteKey("LP", route),
+                GetRouteKey("SOLVERS", route),
                 new RedisValue(lpId));
         }
     }
@@ -64,9 +64,9 @@ public class RouteCache(
         return entries;
     }
 
-    public async Task<IEnumerable<string>> GetLpsByRouteAsync(string sourceNetwork, string sourceToken, string destinationNetwork, string destinationToken)
+    public async Task<IEnumerable<string>> GetSolversByRouteAsync(string sourceNetwork, string sourceToken, string destinationNetwork, string destinationToken)
     {
-        var members = await cache.SetMembersAsync(GetRouteKey("LP", sourceNetwork, sourceToken, destinationNetwork, destinationToken));
+        var members = await cache.SetMembersAsync(GetRouteKey("SOLVERS", sourceNetwork, sourceToken, destinationNetwork, destinationToken));
         return members.Select(m => m.ToString());
     }
 
