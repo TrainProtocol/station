@@ -36,7 +36,7 @@ namespace Train.Station.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ApiResponseQuoteDto> QuoteAsync(string amount, string sourceNetwork, string sourceToken, string destinationNetwork, string destinationToken, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponseQuoteWithSolverDto> QuoteAsync(string amount, string sourceNetwork, string sourceToken, string destinationNetwork, string destinationToken, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
@@ -177,7 +177,7 @@ namespace Train.Station.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ApiResponseQuoteDto> QuoteAsync(string amount, string sourceNetwork, string sourceToken, string destinationNetwork, string destinationToken, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ApiResponseQuoteWithSolverDto> QuoteAsync(string amount, string sourceNetwork, string sourceToken, string destinationNetwork, string destinationToken, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (amount == null)
                 throw new System.ArgumentNullException("amount");
@@ -240,7 +240,7 @@ namespace Train.Station.Client
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<ApiResponseQuoteDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ApiResponseQuoteWithSolverDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -653,13 +653,13 @@ namespace Train.Station.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.3.0.0 (NJsonSchema v11.2.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class ApiResponseQuoteDto
+    public partial class ApiResponseQuoteWithSolverDto
     {
         [Newtonsoft.Json.JsonProperty("error", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public ApiError Error { get; set; }
 
         [Newtonsoft.Json.JsonProperty("data", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public QuoteDto Data { get; set; }
+        public QuoteWithSolverDto Data { get; set; }
 
     }
 
@@ -708,13 +708,22 @@ namespace Train.Station.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.3.0.0 (NJsonSchema v11.2.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class QuoteDto
+    public partial class QuoteWithSolverDto
     {
         [Newtonsoft.Json.JsonProperty("totalFee", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string TotalFee { get; set; }
 
         [Newtonsoft.Json.JsonProperty("receiveAmount", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string ReceiveAmount { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("destinationSolverAddress", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string DestinationSolverAddress { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("sourceContractAddress", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string SourceContractAddress { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("destinationContractAddress", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string DestinationContractAddress { get; set; }
 
     }
 

@@ -19,7 +19,7 @@ public static class StationEndpoints
             .Produces<IEnumerable<RouteDto>>();
 
         group.MapGet("/quote", GetQuoteAsync)
-            .Produces<ApiResponseQuoteDto>();
+            .Produces<ApiResponseQuoteWithSolverDto>();
 
         group.MapGet("/{solver}/swaps/{commitId}", GetSwapAsync)
             .Produces<ApiResponseSwapDto>();
