@@ -18,7 +18,7 @@ public static class StationEndpoints
         group.MapGet("/routes", GetAllRoutesAsync)
             .Produces<IEnumerable<RouteDto>>();
 
-        group.MapGet("/quote-sse", GetQuoteAsync)
+        group.MapGet("/quote", GetQuoteAsync)
             .Produces<ApiResponseQuoteDto>();
 
         group.MapGet("/{solver}/swaps/{commitId}", GetSwapAsync)
@@ -120,6 +120,8 @@ public static class StationEndpoints
             sourceToken,
             destinationNetwork,
             destinationToken);
+
+        quote.Data.LPName = lpName;
 
         return Results.Ok(quote);
     }

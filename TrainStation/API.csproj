@@ -22,11 +22,6 @@
 		<PackageReference Include="Flurl.Http" Version="4.0.2" />
 	</ItemGroup>
 
-
-	<ItemGroup>
-	  <Folder Include="Client\" />
-	</ItemGroup>
-
 	<Target Name="NSwagGenerate" BeforeTargets="BeforeBuild">
 		<Exec Command="$(NSwagExe_Net90) run $(ProjectDir)client.nswag" />
 	</Target>
