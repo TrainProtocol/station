@@ -12,9 +12,11 @@ public class NetworkConfiguration
 
     public string AccountExplorerTemplate { get; set; } = null!;
 
-    public string NativeSymbol { get; set; } = null!;
+    public string NativeTokenSymbol { get; set; } = null!;
 
-    public int Decimals { get; set; }
+    public int NativeTokenDecimals { get; set; }
 
     public string RpcUrl { get; set; } = null!;
+
+    public string Type { get; set; } = null!;
 }

@@ -2,7 +2,7 @@
 
 public class TrainStationOptions
 {
-    public const string SectionName = "TrainSolver";
+    public const string SectionName = "TrainStation";
 
     public string RedisConnectionString { get; set; } = null!;
 

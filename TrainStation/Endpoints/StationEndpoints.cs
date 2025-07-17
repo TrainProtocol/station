@@ -19,7 +19,7 @@ public static class StationEndpoints
             .Produces<IEnumerable<RouteDto>>();
 
         group.MapGet("/quote-sse", GetQuoteAsync)
-            .Produces(statusCode: 200, contentType: "text/event-stream");
+            .Produces<ApiResponseQuoteDto>();
 
         group.MapGet("/{solver}/swaps/{commitId}", GetSwapAsync)
             .Produces<ApiResponseSwapDto>();
@@ -90,8 +90,7 @@ public static class StationEndpoints
         return Results.Ok(routes);
     }
 
-    private static async Task GetQuoteAsync(
-        HttpContext httpContext,
+    private static async Task<IResult> GetQuoteAsync(
         RouteCache routeCache,
         SolverCache solverCache,
         IHttpClientFactory httpClientFactory,
@@ -101,57 +100,27 @@ public static class StationEndpoints
         [FromQuery] string destinationToken,
         [FromQuery] string amount)
     {
-        httpContext.Response.Headers.ContentType = "text/event-stream";
-
         var lps = await routeCache.GetLpsByRouteAsync(
             sourceNetwork,
             sourceToken,
             destinationNetwork,
             destinationToken);
 
-        var cancellationToken = httpContext.RequestAborted;
+        var lpName = lps.First();
 
-            foreach (var lpName in lps)
-            {
-                if (cancellationToken.IsCancellationRequested)
-                {
-                    break;
-                }
+        var solverInfo = solverCache.GetAll()[lpName];
+        var httpClient = httpClientFactory.CreateClient(lpName);
 
-                try
-                {
-                    var solverInfo = solverCache.GetAll()[lpName];
-                    var httpClient = httpClientFactory.CreateClient(lpName);
+        var trainSilverClient = new TrainSolverApiClient(
+            solverInfo.Url.ToString(), httpClient);
 
-                    var trainSilverClient = new TrainSolverApiClient(
-                        solverInfo.Url.ToString(), httpClient);
+        var quote = await trainSilverClient.QuoteAsync(
+            amount,
+            sourceNetwork,
+            sourceToken,
+            destinationNetwork,
+            destinationToken);
 
-                    var quote = await trainSilverClient.QuoteAsync(
-                        amount,
-                        sourceNetwork,
-                        sourceToken,
-                        destinationNetwork,
-                        destinationToken);
-
-                    var message = new
-                    {
-                        Provider = lpName,
-                        Quote = quote.Data
-                    };
-
-                    var json = System.Text.Json.JsonSerializer.Serialize(message);
-
-                    await httpContext.Response.WriteAsync($"data: {json}\n\n");
-                    await httpContext.Response.Body.FlushAsync();
-
-                }
-                catch
-                {
-                }
-            }
-
-         
-
-        await httpContext.Response.Body.FlushAsync();
+        return Results.Ok(quote);
     }
 }
