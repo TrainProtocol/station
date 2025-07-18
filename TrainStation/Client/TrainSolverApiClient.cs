@@ -716,6 +716,9 @@ namespace Train.Station.Client
         [Newtonsoft.Json.JsonProperty("receiveAmount", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string ReceiveAmount { get; set; }
 
+        [Newtonsoft.Json.JsonProperty("sourceSolverAddress", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string SourceSolverAddress { get; set; }
+
         [Newtonsoft.Json.JsonProperty("destinationSolverAddress", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string DestinationSolverAddress { get; set; }
 
@@ -744,11 +747,8 @@ namespace Train.Station.Client
         [Newtonsoft.Json.JsonProperty("commitId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string CommitId { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("sourceNetwork", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string SourceNetwork { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("sourceToken", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string SourceToken { get; set; }
+        [Newtonsoft.Json.JsonProperty("source", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public TokenNetworkDto Source { get; set; }
 
         [Newtonsoft.Json.JsonProperty("sourceAmount", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string SourceAmount { get; set; }
@@ -756,17 +756,20 @@ namespace Train.Station.Client
         [Newtonsoft.Json.JsonProperty("sourceAddress", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string SourceAddress { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("destinationNetwork", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DestinationNetwork { get; set; }
+        [Newtonsoft.Json.JsonProperty("sourceContractAddress", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string SourceContractAddress { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("destinationToken", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DestinationToken { get; set; }
+        [Newtonsoft.Json.JsonProperty("destination", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public TokenNetworkDto Destination { get; set; }
 
         [Newtonsoft.Json.JsonProperty("destinationAmount", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string DestinationAmount { get; set; }
 
         [Newtonsoft.Json.JsonProperty("destinationAddress", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string DestinationAddress { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("destinationContractAddress", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string DestinationContractAddress { get; set; }
 
         [Newtonsoft.Json.JsonProperty("feeAmount", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string FeeAmount { get; set; }
