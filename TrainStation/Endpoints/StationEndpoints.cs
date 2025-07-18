@@ -37,14 +37,15 @@ public static class StationEndpoints
         [FromRoute] string commitId,
         IHttpClientFactory httpClientFactory)
     {
-        if (!solverCache.GetAll().ContainsKey(solver))
+        if (!solverCache.GetAll().TryGetValue(solver, out var solverObj))
         {
             return Results.NotFound();
         }
 
         var httpClient = httpClientFactory.CreateClient(solver);
         var trainSilverClient = new TrainSolverApiClient(
-            solver, httpClient);
+            solverObj.Url.ToString(), httpClient);
+
         var swap = await trainSilverClient.SwapsAsync(commitId);
 
         return Results.Ok(swap);
@@ -58,14 +59,15 @@ public static class StationEndpoints
         IHttpClientFactory httpClientFactory,
         AddLockSignatureModel addLock)
     {
-        if (!solverCache.GetAll().ContainsKey(solver))
+        if (!solverCache.GetAll().TryGetValue(solver, out var solverObj))
         {
             return Results.NotFound();
         }
 
         var httpClient = httpClientFactory.CreateClient(solver);
         var trainSilverClient = new TrainSolverApiClient(
-            solver, httpClient);
+            solverObj.Url.ToString(), httpClient);
+
         var swap = await trainSilverClient.SwapsAsync(commitId);
 
         if (swap == null)
