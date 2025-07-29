@@ -53,5 +53,16 @@
     "NativeTokenDecimals": 9,
     "RpcUrl": "https://api.devnet.solana.com",
     "Type": "Solana"
+  },
+  {
+    "Name": "FUEL_TESTNET",
+    "DisplayName": "Fuel TESTNET",
+    "ChainId": "0",
+    "TransactionExplorerTemplate": "https://app-testnet.fuel.network/tx/{0}",
+    "AccountExplorerTemplate": "https://app-testnet.fuel.network/account/{0}/assets",
+    "NativeTokenSymbol": "ETH",
+    "NativeTokenDecimals": 9,
+    "RpcUrl": "https://testnet.fuel.network/v1/graphql",
+    "Type": "Fuel"
   }
 ]
