@@ -56,7 +56,7 @@
   },
   {
     "Name": "FUEL_TESTNET",
-    "DisplayName": "Fuel TESTNET",
+    "DisplayName": "Fuel Testnet",
     "ChainId": "0",
     "TransactionExplorerTemplate": "https://app-testnet.fuel.network/tx/{0}",
     "AccountExplorerTemplate": "https://app-testnet.fuel.network/account/{0}/assets",
