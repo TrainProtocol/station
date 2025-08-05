@@ -3,5 +3,10 @@
     "name": "EC69",
     "url": "https://train.dev.lb.layerswap.cloud",
     "version": "v1"
+  },
+  {
+    "name": "FUEL",
+    "url": "https://train.lb.layerswap.io",
+    "version": "v1"
   }
 ]
