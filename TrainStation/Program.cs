@@ -1,7 +1,10 @@
+using Microsoft.Extensions.Options;
+using StackExchange.Redis;
 using System.Text.Json.Serialization;
 using System.Threading.RateLimiting;
 using Train.Station.API.Endpoints;
 using Train.Station.API.Extensions;
+using Train.Station.API.Options;
 using Train.Station.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,6 +40,17 @@ builder.Services.Configure<Microsoft.AspNetCore.Mvc.JsonOptions>(options =>
     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 
+var options = new TrainStationOptions();
+configuration.GetSection(TrainStationOptions.SectionName).Bind(options);
+
+builder.Services.AddSingleton<IConnectionMultiplexer>(
+    ConnectionMultiplexer.Connect(options.RedisConnectionString));
+
+builder.Services.AddTransient(sp => sp
+    .GetRequiredService<IConnectionMultiplexer>()
+    .GetDatabase(options.RedisDatabaseIndex));
+
+
 builder.Services.AddHttpClient();
 builder.Services.AddMemoryCache();
 builder.Services.AddSingleton<RouteCache>();
@@ -67,6 +81,9 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+app.UseRateLimiter();
+app.UseCors();
+
 app.MapGroup("/api")
     .MapGet("/health", () => Results.Ok())
     .WithTags("System")
@@ -85,7 +102,5 @@ app.UseSwaggerUI(c =>
     c.DisplayRequestDuration();
 });
 
-app.UseRateLimiter();
-app.UseCors();
 
 await app.RunAsync();

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Text;
 using Train.Station.API.Models;
 using Train.Station.API.Services;
 using Train.Station.Client;
@@ -17,120 +18,113 @@ public static class StationEndpoints
         group.MapGet("/routes", GetAllRoutesAsync)
             .Produces<IEnumerable<RouteDto>>();
 
-        //group.MapGet("/quote", GetQuoteAsync)
-        //    .Produces<ApiResponseQuoteDto>();
+        group.MapGet("/quote", GetQuoteAsync)
+            .Produces<ApiResponseQuoteWithSolverDto>();
 
-        //group.MapGet("/{solver}/swaps", GetAllSwapsAsync)
-        //    .Produces<ApiResponseSwapDto>();
+        group.MapGet("/{solver}/swaps/{commitId}", GetSwapAsync)
+            .Produces<ApiResponseSwapDto>();
 
-        //group.MapGet("/{solver}/swaps/{commitId}", GetSwapAsync)
-        //    .Produces<ApiResponseSwapDto>();
-
-        //group.MapPost("/{solver}/swaps/{commitId}/addLockSig", AddLockSigAsync)
-        //    .Produces<ApiResponse>();
+        group.MapPost("/{solver}/swaps/{commitId}/addLockSig", AddLockSigAsync)
+            .Produces<ApiResponse>();
 
         return group;
     }
 
-
-    //private static async Task<IResult> GetSwapRouteLimitsAsync(
-    //    HttpContext httpContext,
-    //    IRouteService routeService,
-    //    [AsParameters] GetRouteLimitsQueryParams queryParams)
-    //{
-    //    var limit = await routeService.GetLimitAsync(
-    //        new()
-    //        {
-    //            SourceNetwork = queryParams.SourceNetwork!,
-    //            SourceToken = queryParams.SourceToken!,
-    //            DestinationNetwork = queryParams.DestinationNetwork!,
-    //            DestinationToken = queryParams.DestinationToken!,
-    //        });
-
-    //    if (limit == null)
-    //    {
-    //        return Results.NotFound(new ApiResponse()
-    //        {
-    //            Error = new ApiError()
-    //            {
-    //                Code = "LIMIT_NOT_FOUND",
-    //                Message = "Limit not found",
-    //            }
-    //        });
-    //    }
-
-    //    return Results.Ok(new ApiResponse<LimitDto> { Data = limit });
-    //}
-
-    private static async Task<IResult> GetNetworksAsync(
+    private static async Task<IResult> GetSwapAsync(
         HttpContext httpContext,
-        NetworkConfigurationCache networkConfigurationCache)
+        SolverCache solverCache,
+        [FromRoute] string solver,
+        [FromRoute] string commitId,
+        IHttpClientFactory httpClientFactory)
     {
-        var networks = networkConfigurationCache.GetAll();
+        if (!solverCache.GetAll().TryGetValue(solver, out var solverObj))
+        {
+            return Results.NotFound();
+        }
 
-        return Results.Ok(networks);
+        var httpClient = httpClientFactory.CreateClient(solver);
+        var trainSilverClient = new TrainSolverApiClient(
+            solverObj.Url.ToString(), httpClient);
+
+        var swap = await trainSilverClient.SwapsAsync(commitId);
+
+        return Results.Ok(swap);
     }
 
-    //private static async Task<IResult> GetAllSourcesAsync(
-    //    IRouteService routeService,
-    //    INetworkRepository networkRepository,
-    //    [FromQuery] string? destinationNetwork,
-    //    [FromQuery] string? destinationToken)
-    //{
-    //    var sources = await routeService.GetSourcesAsync(
-    //        networkName: destinationNetwork,
-    //        token: destinationToken);
+    private static async Task<IResult> AddLockSigAsync(
+        HttpContext httpContext,
+        SolverCache solverCache,
+        [FromRoute] string solver,
+        [FromRoute] string commitId,
+        IHttpClientFactory httpClientFactory,
+        AddLockSignatureModel addLock)
+    {
+        if (!solverCache.GetAll().TryGetValue(solver, out var solverObj))
+        {
+            return Results.NotFound();
+        }
 
-    //    if (sources == null || !sources.Any())
-    //    {
-    //        return Results.NotFound(new ApiResponse()
-    //        {
-    //            Error = new ApiError()
-    //            {
-    //                Code = "REACHABLE_POINTS_NOT_FOUND",
-    //                Message = "No reachable points found",
-    //            }
-    //        });
-    //    }
+        var httpClient = httpClientFactory.CreateClient(solver);
+        var trainSilverClient = new TrainSolverApiClient(
+            solverObj.Url.ToString(), httpClient);
 
-    //    return Results.Ok(new ApiResponseListDetailedNetworkDto { Data = sources });
-    //}
+        var swap = await trainSilverClient.SwapsAsync(commitId);
+
+        if (swap == null)
+        {
+            return Results.NotFound();
+        }
+
+        var lockSig = await trainSilverClient.AddLockSigAsync(commitId, addLock);
+        return Results.Ok(lockSig);
+    }
+
+    private static async Task<IResult> GetNetworksAsync(
+        NetworkConfigurationCache networkConfigurationCache)
+    {
+        return Results.Ok(networkConfigurationCache.GetAll());
+    }
 
     private static async Task<IResult> GetAllRoutesAsync(
         RouteCache routeCache)
     {
-        var routes = routeCache.GetAll();
+        var routes = await routeCache.GetAllAsync();
         return Results.Ok(routes);
     }
 
-    //private static async Task<IResult> GetQuoteAsync(
-    //    IRouteService routeService,
-    //    HttpContext httpContext,
-    //    [AsParameters] GetQuoteQueryParams queryParams)
-    //{
-    //    var quoteRequest = new QuoteRequest
-    //    {
-    //        SourceNetwork = queryParams.SourceNetwork!,
-    //        SourceToken = queryParams.SourceToken!,
-    //        DestinationNetwork = queryParams.DestinationNetwork!,
-    //        DestinationToken = queryParams.DestinationToken!,
-    //        Amount = queryParams.Amount!.Value,
-    //    };
+    private static async Task<IResult> GetQuoteAsync(
+        RouteCache routeCache,
+        SolverCache solverCache,
+        IHttpClientFactory httpClientFactory,
+        [FromQuery] string sourceNetwork,
+        [FromQuery] string sourceToken,
+        [FromQuery] string destinationNetwork,
+        [FromQuery] string destinationToken,
+        [FromQuery] string amount)
+    {
+        var solvers = await routeCache.GetSolversByRouteAsync(
+            sourceNetwork,
+            sourceToken,
+            destinationNetwork,
+            destinationToken);
 
-    //    var quote = await routeService.GetValidatedQuoteAsync(quoteRequest);
+        var solverName = solvers.First();
 
-    //    if (quote == null)
-    //    {
-    //        return Results.NotFound(new ApiResponse()
-    //        {
-    //            Error = new ApiError()
-    //            {
-    //                Code = "QUOTE_NOT_FOUND",
-    //                Message = "Quote not found",
-    //            }
-    //        });
-    //    }
+        var solverInfo = solverCache.GetAll()[solverName];
+        var httpClient = httpClientFactory.CreateClient(solverName);
 
-    //    return Results.Ok(new ApiResponseQuoteDto { Data = quote });
-    //}
+        var trainSilverClient = new TrainSolverApiClient(
+            solverInfo.Url.ToString(), httpClient);
+
+        var quote = await trainSilverClient.QuoteAsync(
+            amount,
+            sourceNetwork,
+            sourceToken,
+            destinationNetwork,
+            destinationToken);
+
+        quote.Data.SolverName = solverName;
+
+        return Results.Ok(quote);
+    }
 }

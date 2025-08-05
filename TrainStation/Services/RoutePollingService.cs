@@ -15,8 +15,8 @@ public class RoutePollingService(
             {
                 try
                 {
-                    var name = lp.Name;
-                    var baseAddress = lp.Url.ToString();
+                    var name = lp.Key;
+                    var baseAddress = lp.Value.Url.ToString();
 
                     var trainSilverClient = new TrainSolverApiClient(
                         baseAddress, 
@@ -29,7 +29,7 @@ public class RoutePollingService(
                         continue;
                     }
 
-                    routeCache.AddOrUpdateRoute(name, routesResponse.Data, TimeSpan.FromMinutes(10));
+                    await routeCache.AddOrUpdateRouteAsync(name, routesResponse.Data, TimeSpan.FromMinutes(5));
                 }
                 catch (Exception ex)
                 {
