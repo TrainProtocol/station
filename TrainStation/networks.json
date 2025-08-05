@@ -11,6 +11,17 @@
     "Type": "EVM"
   },
   {
+    "Name": "ETHEREUM_MAINNET",
+    "DisplayName": "Ethereum",
+    "ChainId": "1",
+    "TransactionExplorerTemplate": "https://etherscan.io/tx/{0}",
+    "AccountExplorerTemplate": "https://etherscan.io/address/{0}",
+    "NativeTokenSymbol": "ETH",
+    "NativeTokenDecimals": 18,
+    "RpcUrl": "https://eth.drpc.org",
+    "Type": "EVM"
+  },
+  {
     "Name": "ARBITRUM_SEPOLIA",
     "DisplayName": "Arbitrum One Sepolia",
     "ChainId": "421614",
@@ -63,6 +74,17 @@
     "NativeTokenSymbol": "ETH",
     "NativeTokenDecimals": 9,
     "RpcUrl": "https://testnet.fuel.network/v1/graphql",
+    "Type": "Fuel"
+  },
+  {
+    "Name": "FUEL_MAINNET",
+    "DisplayName": "Fuel Ignition",
+    "ChainId": "0",
+    "TransactionExplorerTemplate": "https://app.fuel.network/tx/{0}",
+    "AccountExplorerTemplate": "https://app.fuel.network/account/{0}/assets",
+    "NativeTokenSymbol": "ETH",
+    "NativeTokenDecimals": 9,
+    "RpcUrl": "https://mainnet.fuel.network/v1/graphql",
     "Type": "Fuel"
   }
 ]
