@@ -18,7 +18,7 @@
     "AccountExplorerTemplate": "https://etherscan.io/address/{0}",
     "NativeTokenSymbol": "ETH",
     "NativeTokenDecimals": 18,
-    "RpcUrl": "https://eth.drpc.org",
+    "RpcUrl": "https://eth.llamarpc.com",
     "Type": "EVM"
   },
   {
