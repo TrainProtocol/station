@@ -79,7 +79,7 @@
   {
     "Name": "FUEL_MAINNET",
     "DisplayName": "Fuel Ignition",
-    "ChainId": "0",
+    "ChainId": "9889",
     "TransactionExplorerTemplate": "https://app.fuel.network/tx/{0}",
     "AccountExplorerTemplate": "https://app.fuel.network/account/{0}/assets",
     "NativeTokenSymbol": "ETH",
