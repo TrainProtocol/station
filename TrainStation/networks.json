@@ -106,5 +106,17 @@
     "RpcUrl": "https://aztec-alpha-testnet-fullnode.zkv.xyz",
     "Type": "Aztec",
     "IsTestnet": true
+  },
+  {
+    "Name": "BASE_MAINNET",
+    "DisplayName": "Base",
+    "ChainId": "8453",
+    "TransactionExplorerTemplate": "https://basescan.org/tx/{0}",
+    "AccountExplorerTemplate": "https://basescan.org/address/{0}",
+    "NativeTokenSymbol": "ETH",
+    "NativeTokenDecimals": 18,
+    "RpcUrl": "https://lb.nodies.app/v1/cd20f05d16d24649b06f0e834a4d91c4",
+    "Type": "EVM",
+    "IsTestnet": false
   }
 ]
