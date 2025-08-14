@@ -101,8 +101,8 @@
     "ChainId": "677692",
     "TransactionExplorerTemplate": "https://aztecscan.xyz/tx-effects/{0}",
     "AccountExplorerTemplate": "https://aztecscan.xyz/tx-effects/{0}",
-    "NativeTokenSymbol": "CRL",
-    "NativeTokenDecimals": 18,
+    "NativeTokenSymbol": "ETH",
+    "NativeTokenDecimals": 8,
     "RpcUrl": "https://aztec-alpha-testnet-fullnode.zkv.xyz",
     "Type": "Aztec",
     "IsTestnet": true
