@@ -8,7 +8,8 @@
     "NativeTokenSymbol": "ETH",
     "NativeTokenDecimals": 18,
     "RpcUrl": "https://ethereum-sepolia-rpc.publicnode.com",
-    "Type": "EVM"
+    "Type": "EVM",
+    "IsTestnet": true
   },
   {
     "Name": "ETHEREUM_MAINNET",
@@ -19,7 +20,8 @@
     "NativeTokenSymbol": "ETH",
     "NativeTokenDecimals": 18,
     "RpcUrl": "https://eth.llamarpc.com",
-    "Type": "EVM"
+    "Type": "EVM",
+    "IsTestnet": false
   },
   {
     "Name": "ARBITRUM_SEPOLIA",
@@ -30,7 +32,8 @@
     "NativeTokenSymbol": "ETH",
     "NativeTokenDecimals": 18,
     "RpcUrl": "https://arbitrum-sepolia-rpc.publicnode.com",
-    "Type": "EVM"
+    "Type": "EVM",
+    "IsTestnet": true
   },
   {
     "Name": "OPTIMISM_SEPOLIA",
@@ -41,7 +44,8 @@
     "NativeTokenSymbol": "ETH",
     "NativeTokenDecimals": 18,
     "RpcUrl": "https://sepolia.optimism.io",
-    "Type": "EVM"
+    "Type": "EVM",
+    "IsTestnet": true
   },
   {
     "Name": "STARKNET_SEPOLIA",
@@ -52,7 +56,8 @@
     "NativeTokenSymbol": "ETH",
     "NativeTokenDecimals": 18,
     "RpcUrl": "https://starknet-sepolia.public.blastapi.io",
-    "Type": "EVM"
+    "Type": "EVM",
+    "IsTestnet": true
   },
   {
     "Name": "SOLANA_DEVNET",
@@ -63,7 +68,8 @@
     "NativeTokenSymbol": "SOL",
     "NativeTokenDecimals": 9,
     "RpcUrl": "https://api.devnet.solana.com",
-    "Type": "Solana"
+    "Type": "Solana",
+    "IsTestnet": true
   },
   {
     "Name": "FUEL_TESTNET",
@@ -74,7 +80,8 @@
     "NativeTokenSymbol": "ETH",
     "NativeTokenDecimals": 9,
     "RpcUrl": "https://testnet.fuel.network/v1/graphql",
-    "Type": "Fuel"
+    "Type": "Fuel",
+    "IsTestnet": true
   },
   {
     "Name": "FUEL_MAINNET",
@@ -85,7 +92,8 @@
     "NativeTokenSymbol": "ETH",
     "NativeTokenDecimals": 9,
     "RpcUrl": "https://mainnet.fuel.network/v1/graphql",
-    "Type": "Fuel"
+    "Type": "Fuel",
+    "IsTestnet": false
   },
   {
     "Name": "AZTEC_TESTNET",
@@ -96,6 +104,7 @@
     "NativeTokenSymbol": "CRL",
     "NativeTokenDecimals": 18,
     "RpcUrl": "https://aztec-alpha-testnet-fullnode.zkv.xyz",
-    "Type": "Aztec"
+    "Type": "Aztec",
+    "IsTestnet": true
   }
 ]
