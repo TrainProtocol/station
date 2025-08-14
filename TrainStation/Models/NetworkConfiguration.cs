@@ -19,4 +19,6 @@ public class NetworkConfiguration
     public string RpcUrl { get; set; } = null!;
 
     public string Type { get; set; } = null!;
+
+    public bool IsTestnet { get; set; }
 }
