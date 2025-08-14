@@ -95,7 +95,7 @@
     "AccountExplorerTemplate": "https://aztecscan.xyz/tx-effects/{0}",
     "NativeTokenSymbol": "CRL",
     "NativeTokenDecimals": 18,
-    "RpcUrl": "https://mainnet.fuel.network/v1/graphql",
+    "RpcUrl": "https://aztec-alpha-testnet-fullnode.zkv.xyz",
     "Type": "Aztec"
   }
 ]
