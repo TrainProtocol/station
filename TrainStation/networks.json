@@ -86,5 +86,16 @@
     "NativeTokenDecimals": 9,
     "RpcUrl": "https://mainnet.fuel.network/v1/graphql",
     "Type": "Fuel"
+  },
+  {
+    "Name": "AZTEC_TESTNET",
+    "DisplayName": "Aztec Testnet",
+    "ChainId": "677692",
+    "TransactionExplorerTemplate": "https://aztecscan.xyz/tx-effects/{0}",
+    "AccountExplorerTemplate": "https://aztecscan.xyz/tx-effects/{0}",
+    "NativeTokenSymbol": "CRL",
+    "NativeTokenDecimals": 18,
+    "RpcUrl": "https://mainnet.fuel.network/v1/graphql",
+    "Type": "Aztec"
   }
 ]
