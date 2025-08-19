@@ -769,6 +769,51 @@ namespace Train.Station.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.3.0.0 (NJsonSchema v11.2.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ExtendedNetworkDto
+    {
+        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Name { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("chainId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string ChainId { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("type", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public NetworkType Type { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("displayName", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string DisplayName { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("htlcNativeContractAddress", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string HtlcNativeContractAddress { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("htlcTokenContractAddress", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string HtlcTokenContractAddress { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("feeType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public TransactionFeeType FeeType { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("feePercentageIncrease", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int FeePercentageIncrease { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("nativeToken", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public TokenDto NativeToken { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.3.0.0 (NJsonSchema v11.2.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ExtendedTokenNetworkDto
+    {
+        [Newtonsoft.Json.JsonProperty("token", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public TokenDto Token { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("network", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ExtendedNetworkDto Network { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.3.0.0 (NJsonSchema v11.2.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class NetworkDto
     {
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -798,6 +843,9 @@ namespace Train.Station.Client
 
         [System.Runtime.Serialization.EnumMember(Value = @"Fuel")]
         Fuel = 3,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Aztec")]
+        Aztec = 4,
 
     }
 
@@ -831,8 +879,8 @@ namespace Train.Station.Client
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public TransactionType Type { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("args", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Args { get; set; }
+        [Newtonsoft.Json.JsonProperty("prepareArgs", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string PrepareArgs { get; set; }
 
         [Newtonsoft.Json.JsonProperty("networkName", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string NetworkName { get; set; }
@@ -857,8 +905,14 @@ namespace Train.Station.Client
         [Newtonsoft.Json.JsonProperty("sourceSolverAddress", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string SourceSolverAddress { get; set; }
 
+        [Newtonsoft.Json.JsonProperty("sourceSignerAgent", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string SourceSignerAgent { get; set; }
+
         [Newtonsoft.Json.JsonProperty("destinationSolverAddress", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string DestinationSolverAddress { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("destinationSignerAgent", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string DestinationSignerAgent { get; set; }
 
         [Newtonsoft.Json.JsonProperty("sourceContractAddress", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string SourceContractAddress { get; set; }
@@ -884,6 +938,9 @@ namespace Train.Station.Client
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.3.0.0 (NJsonSchema v11.2.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class SwapDto
     {
+        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int Id { get; set; }
+
         [Newtonsoft.Json.JsonProperty("commitId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string CommitId { get; set; }
 
@@ -891,7 +948,7 @@ namespace Train.Station.Client
         public string Hashlock { get; set; }
 
         [Newtonsoft.Json.JsonProperty("source", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public TokenNetworkDto Source { get; set; }
+        public ExtendedTokenNetworkDto Source { get; set; }
 
         [Newtonsoft.Json.JsonProperty("sourceAmount", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string SourceAmount { get; set; }
@@ -903,7 +960,7 @@ namespace Train.Station.Client
         public string SourceContractAddress { get; set; }
 
         [Newtonsoft.Json.JsonProperty("destination", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public TokenNetworkDto Destination { get; set; }
+        public ExtendedTokenNetworkDto Destination { get; set; }
 
         [Newtonsoft.Json.JsonProperty("destinationAmount", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string DestinationAmount { get; set; }
@@ -959,6 +1016,24 @@ namespace Train.Station.Client
 
         [Newtonsoft.Json.JsonProperty("network", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Network { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.3.0.0 (NJsonSchema v11.2.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum TransactionFeeType
+    {
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Default")]
+        Default = 0,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"EIP1559")]
+        EIP1559 = 1,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"ArbitrumEIP1559")]
+        ArbitrumEIP1559 = 2,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"OptimismEIP1559")]
+        OptimismEIP1559 = 3,
 
     }
 

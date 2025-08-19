@@ -102,7 +102,7 @@
     "TransactionExplorerTemplate": "https://aztecscan.xyz/tx-effects/{0}",
     "AccountExplorerTemplate": "https://aztecscan.xyz/tx-effects/{0}",
     "NativeTokenSymbol": "ETH",
-    "NativeTokenDecimals": 8,
+    "NativeTokenDecimals": 18,
     "RpcUrl": "https://aztec-alpha-testnet-fullnode.zkv.xyz",
     "Type": "Aztec",
     "IsTestnet": true
